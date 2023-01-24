@@ -18,6 +18,9 @@ function howManyMovies(moviesArray) {
 
 // Iteration 3: All scores average - Get the average of all scores with 2 decimals
 function scoresAverage(moviesArray) {
+    if (moviesArray.length === 0){
+        return 0
+    }
     let scoreAvg = moviesArray.reduce((acc, score) => {
       if (score.score !== undefined){
         return acc + score.score
@@ -55,9 +58,14 @@ function orderByYear(moviesArray) {
             return 1
         } else if(a.year < b.year){
             return -1
-        } else if (a.title > b.title){
-            return 0
+        } else if (a.year === b.year){
+            if (a.title > b.title){
+                return 1
+            } else if(a.title < b.title){
+                return -1
+            }
         }
+        return 0
     })
     return clone
 }
@@ -65,8 +73,7 @@ function orderByYear(moviesArray) {
 // Iteration 6: Alphabetic Order - Order by title and print the first 20 titles
 function orderAlphabetically(moviesArray) {
     let clone = structuredClone(moviesArray);
-    let movies = clone.slice(0, 20)
-    movies.sort((a, b) => {
+    clone.sort((a, b) => {
       if (a.title > b.title){
         return 1
       } else if (a.title < b.title){
@@ -75,7 +82,8 @@ function orderAlphabetically(moviesArray) {
         return 0
       } 
     })
-    let byTitle = movies.map((title) => {
+    let top20 = clone.slice(0, 20)
+    let byTitle = top20.map((title) => {
        return title.title
     })
     return byTitle
